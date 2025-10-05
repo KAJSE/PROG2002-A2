@@ -1,9 +1,8 @@
-import express from 'express';
-import { pool } from '../event_db';
-
+const express = require('express');
+const { pool } = require('../event_db');
 const router = express.Router();
 
-router.get('/api/organisations', (req, res) => {
+router.get('/', (req, res) => {
   pool.query('SELECT * FROM organisations WHERE is_active=1 ORDER BY name')
     .then(([rows]) => res.json(rows))
     .catch((err) => {

@@ -1,9 +1,9 @@
-import express from 'express';
-import { pool } from '../event_db';
+const express = require('express');
+const { pool } = require('../event_db');
 
 const router = express.Router();
 
-router.get('/api/events', (req, res) => {
+router.get('/', (req, res) => {
   const {
     status = 'active',
     city,
@@ -63,7 +63,7 @@ router.get('/api/events', (req, res) => {
 });
 
 
-router.get('/api/events/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   const id = req.params.id;
   const detailSql = `
     SELECT e.*, c.name AS category_name, o.name AS organisation_name, o.mission_text AS organisation_mission
