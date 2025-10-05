@@ -91,29 +91,34 @@
 
 
 <script>
+  // API url
   var API = "http://localhost:3000";
 
+  // get element by selector
   function $(sel) {
     return document.querySelector(sel);
   }
 
+  // get API json result
   function getJSON(url) {
     return fetch(API + url).then(function(r){
       return r.json();
     });
   }
 
+  // load category options
   function loadCategories() {
     getJSON("/categories").then(function(cates){
-      var s = document.querySelector("#categoryId");
+      var categoryId = document.querySelector("#categoryId");
       var html = '<option value="">All</option>';
       for (var i=0; i<cates.length; i++) {
         html += '<option value="'+cates[i].id+'">'+cates[i].name+'</option>';
       }
-      s.innerHTML = html;
+      categoryId.innerHTML = html;
     });
   }
 
+  // get event status
   function getEventStatus(e){
     var now = Date.now();
     var start = new Date(e.start_datetime).getTime();
@@ -130,6 +135,7 @@
     return "active";
   }
 
+  // get status chip
   function statusChip(status){
     var map = {
       active: {
@@ -153,6 +159,7 @@
     return '<span class="'+cfg.cls+'">'+cfg.label+'</span>';
   }
 
+  // search events
   function searchEvents() {
     var params = [];
     var status = $("#status").value || "active";
@@ -163,13 +170,27 @@
     var start = $("#start").value ? new Date($("#start").value).toISOString() : "";
     var end = $("#end").value ? new Date($("#end").value).toISOString() : "";
 
-    if(status) params.push("status="+encodeURIComponent(status));
-    if(city) params.push("city="+encodeURIComponent(city));
-    if(state) params.push("state="+encodeURIComponent(state));
-    if(cat) params.push("categoryId="+encodeURIComponent(cat));
-    if(q) params.push("q="+encodeURIComponent(q));
-    if(start) params.push("start="+encodeURIComponent(start));
-    if(end) params.push("end="+encodeURIComponent(end));
+    if(status) {
+      params.push("status="+encodeURIComponent(status));
+    }
+    if(city) {
+      params.push("city="+encodeURIComponent(city));
+    }
+    if(state) {
+      params.push("state="+encodeURIComponent(state));
+    }
+    if(cat) {
+      params.push("categoryId="+encodeURIComponent(cat));
+    }
+    if(q) {
+      params.push("q="+encodeURIComponent(q));
+    }
+    if(start) {
+      params.push("start="+encodeURIComponent(start));
+    }
+    if(end) {
+      params.push("end="+encodeURIComponent(end));
+    }
 
     var url = "/events" + (params.length ? "?" + params.join("&") : "");
 
@@ -211,6 +232,7 @@
     });
   }
 
+  // window load event
   window.onload = function(){
     loadCategories();
     searchEvents();
