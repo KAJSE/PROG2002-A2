@@ -32,7 +32,7 @@
     <section class="panel top">
         <div class="top-text">
             <h2>Welcome to City Charity</h2>
-            <p class="muted">Discover local causes, join community events, and support what you care about. Browse upcoming highlights below or open the search to filter by city, time, and category.</p>
+            <p class="pr">Discover local causes, join community events, and support what you care about. Browse upcoming highlights below or open the search to filter by city, time, and category.</p>
         </div>
 
         <!-- Banner -->
@@ -49,7 +49,7 @@
     <section>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px">
             <h3 style="margin:0">Active events</h3>
-            <small class="muted" id="resultHint">—</small>
+            <small class="pr" id="resultHint">—</small>
         </div>
         <div class="grid" id="eventsGrid"></div>
     </section>
@@ -67,7 +67,7 @@
       renderEvents(items);
       $('#resultHint').textContent = 'Showing '+items.length+' active events';
     }).catch(function(){
-      $('#eventsGrid').innerHTML = '<div class="list-empty"><p class="muted">Failed to load events</p></div>';
+      $('#eventsGrid').innerHTML = '<div class="list-empty"><p class="pr">Failed to load events</p></div>';
       $('#resultHint').textContent = '';
     });
   }
@@ -75,7 +75,7 @@
   function renderEvents(items){
     var grid = $('#eventsGrid');
     if(!items.length){
-      grid.innerHTML = '<div class="list-empty"><p class="muted">No upcoming events</p></div>';
+      grid.innerHTML = '<div class="list-empty"><p class="pr">No upcoming events</p></div>';
       return;
     }
     var html = '';
