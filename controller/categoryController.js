@@ -4,8 +4,7 @@ import { pool } from '../event_db';
 const router = express.Router();
 
 router.get('/api/categories', (req, res) => {
-  const includeInactive = req.query.includeInactive === 'true';
-  const sql = `SELECT * FROM categories ${includeInactive ? '' : 'WHERE is_active=1'} ORDER BY name`;
+  const sql = `SELECT * FROM categories WHERE is_active=1 ORDER BY name`;
 
   pool.query(sql)
     .then(([rows]) => res.json(rows))

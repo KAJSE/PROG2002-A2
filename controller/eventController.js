@@ -14,13 +14,13 @@ router.get('/api/events', (req, res) => {
     q
   } = req.query;
 
-  let where = 'WHERE 1=1';
+  let where = 'WHERE e.is_suspended=0';
   if (status === 'active') {
-    where += ' AND e.end_datetime >= NOW() AND e.is_suspended=0'
+    where += ' AND e.end_datetime >= NOW()'
   } else if (status === 'past') {
     where += ' AND e.end_datetime < NOW()'
   } else if (status === 'upcoming') {
-    where += ' AND e.start_datetime >= NOW() AND e.is_suspended=0'
+    where += ' AND e.start_datetime >= NOW()'
   }
 
   const params = [];
@@ -48,7 +48,7 @@ router.get('/api/events', (req, res) => {
   const sql = `
     SELECT e.*, c.name AS category_name, o.name AS organisation_name
     FROM events e
-    JOIN categories c   ON c.id = e.category_id
+    JOIN categories c ON c.id = e.category_id
     JOIN organisations o ON o.id = e.organisation_id
     ${where}
     ORDER BY e.start_datetime ASC
@@ -66,10 +66,9 @@ router.get('/api/events', (req, res) => {
 router.get('/api/events/:id', (req, res) => {
   const id = req.params.id;
   const detailSql = `
-    SELECT e.*, c.name AS category_name, o.name AS organisation_name,
-           o.mission_text AS organisation_mission
+    SELECT e.*, c.name AS category_name, o.name AS organisation_name, o.mission_text AS organisation_mission
     FROM events e
-    JOIN categories c    ON c.id = e.category_id
+    JOIN categories c ON c.id = e.category_id
     JOIN organisations o ON o.id = e.organisation_id
     WHERE e.id = ?
   `;
